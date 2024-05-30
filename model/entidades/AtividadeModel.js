@@ -1,6 +1,6 @@
 const Database = require("../Database");
 
-const database = new Database
+const database = new Database()
 
 class AtividadeModel {
 
@@ -9,9 +9,13 @@ class AtividadeModel {
         this.nome = nome;
     }
 
-    async ObterTodos(){
+    async obterTodos(){
         const listaAtividades = await database.ExecutaComando('select * from cadastroatividadesustentavel');
         return listaAtividades;
+    }
+
+    async adicionar(dadosAtividade){
+        await database.ExecutaComandoNonQuery('insert into cadastroatividadesustentavel set ?', dadosAtividade);
     }
 
 }

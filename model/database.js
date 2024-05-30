@@ -6,7 +6,7 @@ class Database {
         this.pool = mysql.createPool({
             host: "localhost",
             user: "root",
-            database: "cadastroatividadesustentavel",
+            database: "cadastroativsustentavel",
             password: ""
         });
     }
