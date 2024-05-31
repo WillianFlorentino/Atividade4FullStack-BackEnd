@@ -14,8 +14,17 @@ class AtividadeModel {
         return listaAtividades;
     }
 
+    async obterPorId(id){
+        const result = await database.ExecutaComando('select * from cadastroatividadesustentavel where id = ?', [id]);
+        return result[0];
+    }
+
     async adicionar(dadosAtividade){
         await database.ExecutaComandoNonQuery('insert into cadastroatividadesustentavel set ?', dadosAtividade);
+    }
+
+    async atualizar(id, dadosAtividade){
+        await database.ExecutaComandoNonQuery('update cadastroatividadesustentavel set ? where id = ?', [dadosAtividade, id]);
     }
 
 }

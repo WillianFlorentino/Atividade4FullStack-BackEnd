@@ -9,6 +9,13 @@ class AtividadeController{
         return res.status(200).json(atividades);
     }
 
+    async obterPorId(req, res){
+        const id = req.params.id;
+        const atividade = await atividadeModel.obterPorId(id);
+        
+        return res.status(200).json(atividade);
+    }
+
     async adicionar(req, res){
         const {nome} = req.body;
         const atividade = new AtividadeModel(0, nome);
@@ -19,6 +26,21 @@ class AtividadeController{
         } catch (error) {
             console.log('Erro ao adicionar atividade', error);
             return res.status(500).json({message: 'Erro ao cadastrar atividade'});
+        }
+
+    }
+
+    async atualizar(req, res){
+        const id = req.params.id;
+        const {nome} = req.body;
+        const atividade = new AtividadeModel(id, nome);
+
+        try {
+            await atividadeModel.atualizar(id, atividade);
+            return res.status(200).json({message: 'Atividade atualizada com sucesso'});
+        } catch (error) {
+            console.log('Erro ao adicionar atividade', error);
+            return res.status(500).json({message: 'Erro ao atualizar atividade'});
         }
 
     }
