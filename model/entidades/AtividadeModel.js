@@ -27,6 +27,15 @@ class AtividadeModel {
         await database.ExecutaComandoNonQuery('update cadastroatividadesustentavel set ? where id = ?', [dadosAtividade, id]);
     }
 
+    async excluir(id){
+        await database.ExecutaComandoNonQuery('delete from cadastroatividadesustentavel where id = ?', [id]);
+    }
+
+    async filtrar(termoBusca){
+        const atividades = await database.ExecutaComando('select * from cadastroatividadesustentavel where nome like ?', [`%${termoBusca}%`])
+        return atividades;
+    }
+
 }
 
 module.exports = AtividadeModel;
