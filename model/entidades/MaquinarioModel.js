@@ -1,4 +1,4 @@
-const Database = require("../Database")
+const Database = require("../database")
 const database = new Database()
 
 class MaquinarioModel {
@@ -9,24 +9,28 @@ class MaquinarioModel {
         this.ano = ano;
     }
     async obterTodos() {
-        const listaMaquinarios = await database.ExecutaComando('select * from maquinarios');
+        const listaMaquinarios = await database.ExecutaComando('select * from maquinario');
         return listaMaquinarios;
     }
+    async obterPorId(id){
+        const result =await database.ExecutaComando('select * from maquinario where id=? ', [id])
+        return result[0]
+    }
     async adicionar(dadosMaquinario) {
-        await database.ExecutaComandoNonQuery('insert into maquinarios set ?', dadosMaquinario)
+        await database.ExecutaComandoNonQuery('insert into maquinario set ?', dadosMaquinario)
     }
     async atualizar (id,dadosMaquinario){
-        await database.ExecutaComandoNonQuery('update maquinarios set ? where id = ?', [
+        await database.ExecutaComandoNonQuery('update maquinario set ? where id = ?', [
             dadosMaquinario,
             id
         ])
     }
-    async delete(id){
-        await database.ExecutaComandoNonQuery('delete from maquinarios where id ?',[id])
+    async delete (id){
+        await database.ExecutaComandoNonQuery('delete from maquinario where id=?',[id])
     }
     async filtrar(termobusca) {
         const maquinarios = await database.ExecutaComando(
-            "select * from maquinarios where modelo like ? or placa like ? or ano like ?",
+            "select * from maquinario where modelo like ? or placa like ? or ano like ?",
             [`%${termobusca}%`, `%${termobusca}%`, `%${termobusca}%`]
         );
         return maquinarios;
