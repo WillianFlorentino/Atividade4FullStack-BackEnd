@@ -9,7 +9,7 @@ class MaquinarioModel {
         this.ano = ano;
     }
     async obterTodos() {
-        const listaMaquinarios = await database.ExecutaComando('select * from maquinario order by modelo asc');
+        const listaMaquinarios = await database.ExecutaComando('select * from maquinarios');
         return listaMaquinarios;
     }
     async obterPorId(id){
