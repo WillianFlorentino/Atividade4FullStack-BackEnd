@@ -1,4 +1,4 @@
-const Database = require("../Database");
+const Database = require("../database");
 
 const database = new Database()
 
@@ -10,7 +10,7 @@ class AtividadeModel {
     }
 
     async obterTodos(){
-        const listaAtividades = await database.ExecutaComando('select * from cadastroatividadesustentavel');
+        const listaAtividades = await database.ExecutaComando('select * from cadastroatividadesustentavel order by nome asc');
         return listaAtividades;
     }
 

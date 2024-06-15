@@ -1,6 +1,6 @@
 const MaquinarioModel = require("../model/entidades/MaquinarioModel");
 
-const maquinarioModel = new MaquinarioModel()
+const maquinarioModel = new MaquinarioModel
 class MaquinarioController {
 
     async obterTodos(req, res) {
@@ -36,14 +36,14 @@ class MaquinarioController {
             res.status(500).json({error:'Erro ao atualizar maquinário'})
         }
     }
-    async excluir(req,res){
+    async excluir(req, res) {
         const id = req.params.id;
         try {
             await maquinarioModel.delete(id);
-            res.status(200).json({message:'Maquinário foi Excluido!'})
+            res.status(200).json({ message: 'Maquinário foi Excluído!' });
         } catch (error) {
-            console.log('Erro ao excluir maquinário',error)
-            res.status(500).json({error:'Erro ao excluir maquinário'})
+            console.log('Erro ao excluir maquinário', error);
+            res.status(500).json({ error: 'Erro ao excluir maquinário' });
         }
     }
     async filtrar(req,res){

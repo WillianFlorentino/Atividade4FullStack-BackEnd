@@ -15,7 +15,7 @@ class Beneficiario {
     }
 
     async obterTodos(){
-        const listaBeneficiarios = await database.ExecutaComando('select * from beneficiario');
+        const listaBeneficiarios = await database.ExecutaComando('select * from beneficiario order by nome asc');
         return listaBeneficiarios;
     }
 

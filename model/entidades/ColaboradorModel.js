@@ -17,7 +17,7 @@ class ColaboradorModel{
 
     }
     async obterTodos(){
-       const listaColaboradores= await database.ExecutaComando('select * from colaboradores');
+       const listaColaboradores= await database.ExecutaComando('select * from colaboradores order by nome asc');
        return listaColaboradores;
     }
 
