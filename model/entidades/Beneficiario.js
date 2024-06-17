@@ -15,7 +15,7 @@ class Beneficiario {
     }
 
     async obterTodos(){
-        const listaBeneficiarios = await database.ExecutaComando('select * from beneficiario order by nome asc');
+        const listaBeneficiarios = await database.ExecutaComando('select * from beneficiario');
         return listaBeneficiarios;
     }
 
@@ -43,7 +43,11 @@ class Beneficiario {
         );
         return beneficiarios;
     }
+
+    async verificarExistenciaCPF(cpf) {
+        const result = await database.ExecutaComando('select count(*) as count from beneficiario where cpf = ?', [cpf]);
+        return result[0].count > 0;
+    }
 }
 
 module.exports = Beneficiario;
-

@@ -10,4 +10,5 @@ router.put('/beneficiarios/:id', beneficiariosController.atualizar);
 router.delete('/beneficiarios/:id', beneficiariosController.excluir);
 router.get('/beneficiarios/filtrar/:termobusca', beneficiariosController.filtrar);
 
+
 module.exports = router;

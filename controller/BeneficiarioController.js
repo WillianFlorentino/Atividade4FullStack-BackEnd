@@ -32,6 +32,10 @@ class BeneficiarioController {
         const novoBeneficiario = new Beneficiario(0, nome, cpf, contato, email, endereco, bairro, numero, datanascimento);
 
         try {
+            const cpfExists = await beneficiario.verificarExistenciaCPF(cpf);
+            if (cpfExists) {
+                return res.status(400).json({ error: 'CPF já cadastrado. Tente outro CPF.' });
+            }
             await beneficiario.adicionar(novoBeneficiario);
             return res.status(201).json({ message: 'Beneficiário cadastrado com sucesso' });
         } catch (error) {

@@ -1,44 +1,44 @@
 const Database = require("../database");
 
-const database = new Database()
-class ColaboradorModel{
-    constructor(id,nome,cpf,contato,endereco,bairro,numero,dataNascimento,cargo,nivelEscolaridade,email){
-        this.id= id;
-        this.nome= nome;
-        this.cpf= cpf;
-        this.contato= contato;
-        this.endereco= endereco;
-        this.bairro= bairro;
-        this.numero= numero;
-        this.dataNascimento= dataNascimento;
-        this.cargo= cargo;
-        this.nivelEscolaridade= nivelEscolaridade;
-        this.email= email;
-
-    }
-    async obterTodos(){
-       const listaColaboradores= await database.ExecutaComando('select * from colaboradores order by nome asc');
-       return listaColaboradores;
+const database = new Database();
+class ColaboradorModel {
+    constructor(id, nome, cpf, contato, endereco, bairro, numero, dataNascimento, cargo, nivelEscolaridade, email) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.contato = contato;
+        this.endereco = endereco;
+        this.bairro = bairro;
+        this.numero = numero;
+        this.dataNascimento = dataNascimento;
+        this.cargo = cargo;
+        this.nivelEscolaridade = nivelEscolaridade;
+        this.email = email;
     }
 
-    async obterPorId(id){
-        const result =await database.ExecutaComando('select * from colaboradores where id=? ', [id])
-        return result[0]
+    async obterTodos() {
+        const listaColaboradores = await database.ExecutaComando('select * from colaboradores order by nome asc');
+        return listaColaboradores;
     }
 
-    async adicionar (dadosColaborador){
-        await database.ExecutaComandoNonQuery('insert into colaboradores set ?',dadosColaborador)
+    async obterPorId(id) {
+        const result = await database.ExecutaComando('select * from colaboradores where id = ?', [id]);
+        return result[0];
     }
 
-    async atualizar (id,dadosColaborador){
-        await database.ExecutaComandoNonQuery('update colaboradores set ? where id= ?',[
+    async adicionar(dadosColaborador) {
+        await database.ExecutaComandoNonQuery('insert into colaboradores set ?', dadosColaborador);
+    }
+
+    async atualizar(id, dadosColaborador) {
+        await database.ExecutaComandoNonQuery('update colaboradores set ? where id = ?', [
             dadosColaborador,
-            id 
-        ])
+            id
+        ]);
     }
 
-    async delete (id){
-        await database.ExecutaComandoNonQuery('delete from colaboradores where id=?',[id])
+    async delete(id) {
+        await database.ExecutaComandoNonQuery('delete from colaboradores where id = ?', [id]);
     }
 
     async filtrar(termobusca) {
@@ -48,8 +48,11 @@ class ColaboradorModel{
         );
         return colaboradores;
     }
-    
 
+    async verificarExistenciaCPF(cpf) {
+        const result = await database.ExecutaComando('select * from colaboradores where cpf = ?', [cpf]);
+        return result.length > 0;
+    }
 }
 
-module.exports=ColaboradorModel;
+module.exports = ColaboradorModel;
