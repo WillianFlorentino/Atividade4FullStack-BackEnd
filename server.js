@@ -12,6 +12,7 @@ const beneficiarioRoutes = require('./routers/BeneficiarioRoutes')
 const maquinarioRouter = require('./routers/MaquinarioRouter')
 const servicoRouters = require('./routers/ServicoRouters')
 const tipoMaquinarioRouter = require('./routers/TipoMaquinarioRouters')
+const criarAtivSustRouter = require('./routers/CriarAtivSustRouter')
 const app = express();
 const port = 3001;
 app.use(express.json());
@@ -28,11 +29,13 @@ app.use(beneficiarioRoutes);
 app.use(maquinarioRouter);
 app.use(servicoRouters);
 app.use(tipoMaquinarioRouter); 
+app.use(criarAtivSustRouter);
 const mysql = require("mysql2");
-app.listen(port, () => `Executando na porta ${port}`);
+app.listen(port, () => console.log('Servidor rodando na porta ' + port));
 app.use('/api', atividadeRouters); 
 app.use('/api', colaboradoresRoutes);
 app.use('/api', beneficiarioRoutes);
 app.use('/api', maquinarioRouter);
 app.use('/api', servicoRouters);
 app.use('/api', tipoMaquinarioRouter); 
+app.use('/api', criarAtivSustRouter);

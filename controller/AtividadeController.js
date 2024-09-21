@@ -3,8 +3,8 @@ const atividadeModel = new AtividadeModel();
 class AtividadeController{
 
     async obterTodos(req, res){
-        const atividades = await atividadeModel.obterTodos();        
-        return res.status(200).json(atividades);
+        const atividade = await atividadeModel.obterTodos();        
+        return res.status(200).json(atividade);
     }
 
     async obterPorId(req, res){

@@ -2,35 +2,30 @@ const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const userModel = require('../model/userModel');
 
-const registerUser = async (email, nome, senha) => {
-    const users = await userModel.findUserByEmail(email);
-    if (users.length > 0) {
-        throw new Error('Usuário com esse e-mail já existe!');
+// Certifique-se de que o dotenv seja carregado
+require('dotenv').config();
+
+const registerUser = async (email, nome, password) => {
+    const userExists = await userModel.findUserByEmail(email);
+    if (userExists && userExists.length > 0) {  // Certifique-se de que há resultados
+        throw new Error('Usuário com este e-mail já existe');
     }
 
-    const hashedPassword = await bcryptjs.hash(senha, 10);
+    const hashedPassword = await bcryptjs.hash(password, 10);
     await userModel.createUser(email, nome, hashedPassword);
-}
+};
 
 const loginUser = async (email, password) => {
-    const users = await userModel.findUserByEmail(email);
-
-    if (users.length === 0) {
-        throw new Error('Email ou senha inválidos!');
+    const user = await userModel.findUserByEmail(email);
+    if (!user || user.length === 0 || !(await bcryptjs.compare(password, user[0].senha))) {
+        throw new Error('Usuário ou senha incorretos!');
     }
 
-    const user = users[0];
-
-    // Verifica se a senha fornecida é correta
-    const isPasswordCorrect = await bcryptjs.compare(password, user.senha);
-    if (!isPasswordCorrect) {
-        throw new Error('Email ou senha inválidos!');
-    }
-
-    // Gera o token se a senha estiver correta
-    const token = jwt.sign({ id: user.id, nome: user.nome, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
+    const token = jwt.sign({ id: user[0].id, nome: user[0].nome, email: user[0].email }, process.env.JWT_SECRET, { expiresIn: '30m' });
     return token;
-}
+};
 
-module.exports = { registerUser, loginUser };
+module.exports = {
+    registerUser,
+    loginUser
+};
