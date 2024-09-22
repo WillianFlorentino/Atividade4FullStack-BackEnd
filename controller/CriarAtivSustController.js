@@ -30,31 +30,58 @@ class CriarAtivSustController {
     }
 
     async adicionar(req, res) {
-        const { nome, cpf, contato, endereco, bairro, numero, tipoAtividadeSustId, data, horarioInicial, horarioFinal, descricao } = req.body;
-
-        if (!nome || !cpf || !contato || !endereco || !bairro || !numero || !tipoAtividadeSustId || !data || !horarioInicial || !horarioFinal || !descricao) {
+        const { 
+            criar_nome, 
+            criar_cpf, 
+            criar_contato, 
+            criar_endereco, 
+            criar_bairro, 
+            criar_numero, 
+            id, // Tipo de Atividade
+            criar_data, 
+            criar_horarioInicial, 
+            criar_horarioFinal, 
+            criar_descricao 
+        } = req.body;
+    
+        // Verificação de campos obrigatórios
+        if (!criar_nome || !criar_cpf || !criar_contato || !criar_endereco || !criar_bairro || !criar_numero || !id || !criar_data || !criar_horarioInicial || !criar_horarioFinal || !criar_descricao) {
             return res.status(400).json({ message: 'Por favor, informe todos os dados da Atividade Sustentável.' });
         }
-
+    
         try {
             const tipoAtividade = new AtividadeModel();
-            const tipoAtividadeData = await tipoAtividade.obterPorId(tipoAtividadeSustId);
-
+            const tipoAtividadeData = await tipoAtividade.obterPorId(id);
+    
             if (!tipoAtividadeData) {
                 return res.status(400).json({ message: 'Tipo de Atividade Sustentável inválido.' });
             }
-
-            const atividadeSust = new CriarAtivSustModel(0, nome, cpf, contato, endereco, bairro, numero, tipoAtividadeSustId, data, horarioInicial, horarioFinal, descricao);
-            atividadeSust.tipoAtividade = tipoAtividade;
-
+    
+            // Criação da nova atividade
+            const atividadeSust = new CriarAtivSustModel(
+                0, // ID será gerado automaticamente
+                criar_nome,
+                criar_cpf,
+                criar_contato,
+                criar_endereco,
+                criar_bairro,
+                criar_numero,
+                id,
+                criar_data,
+                criar_horarioInicial,
+                criar_horarioFinal,
+                criar_descricao
+            );
+    
             await atividadeSust.adicionar();
-
+    
             return res.status(200).json({ message: 'Atividade sustentável cadastrada com sucesso.' });
         } catch (error) {
             console.error('Erro ao adicionar atividade sustentável:', error);
             return res.status(500).json({ message: 'Erro ao cadastrar atividade sustentável.' });
         }
     }
+    
 
     async atualizar(req, res) {
         const id = req.params.id;
