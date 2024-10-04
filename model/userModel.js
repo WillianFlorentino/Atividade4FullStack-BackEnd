@@ -6,9 +6,12 @@ const findUserByEmail = async (email) => {
     return rows;  
 }
 
-const createUser = async (email, nome, hashedPassword) => {
-    const result = await db.ExecutaComando('INSERT INTO user (email, nome, senha) VALUES (?, ?, ?)', [email, nome, hashedPassword]);
+const createUser = async (email, hashedPassword, roleId) => {
+    const result = await db.ExecutaComando(
+        'INSERT INTO users (email, password, role_id) VALUES (?, ?, ?)',
+        [email, hashedPassword, roleId]
+    );
     return result;
-}
+};
 
 module.exports = { findUserByEmail, createUser };

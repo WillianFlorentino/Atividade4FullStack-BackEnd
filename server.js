@@ -1,8 +1,8 @@
 require('dotenv').config();
 const express = require("express");
 const cors = require("cors");  
-const authRouters = require('./routers/auth')
-const anuncioRoutes =require('./routers/anuncio')
+const authRoutes = require('./routers/authRoutes');
+const relatoriosRoute =require('./routers/relatoriosRoutes')
 
 /** Rotas */
 
@@ -19,8 +19,10 @@ app.use(express.json());
 app.use(cors());
 
 
-app.use('/api/auth', authRouters)
-app.use('/api/anuncio', anuncioRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/relatorios', relatoriosRoute);
+
+// app.use('/api/anuncio', anuncioRoutes)
 
 
 app.use(atividadeRouters);
